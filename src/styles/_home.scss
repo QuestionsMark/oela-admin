@@ -1,0 +1,17 @@
+.home {
+    padding-top: 30px;
+
+    &__section {
+        @extend .edit__section;
+    }
+
+    &__title {
+        color: $dark-green;
+        margin-bottom: 10px;
+    }
+
+    &__text {
+        color: $dark-green;
+        font-weight: bold;
+    }
+}

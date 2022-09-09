@@ -1,0 +1,11 @@
+.login-screen {
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__inp {
+        margin-bottom: 20px;
+    }
+}

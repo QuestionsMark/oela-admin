@@ -1,0 +1,50 @@
+.edit {
+    padding: 30px 0 0;
+
+    &__section {
+        @include shadow3D;
+        width: calc(100% - 40px);
+        max-width: 1300px;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 0 auto 30px;
+        background-color: #eee;
+    }
+
+    &__form {
+        display: flex;
+        align-items: center;
+        padding: 10px 10px 10px 0;
+    }
+
+    &__inp {
+        min-width: 0;
+        flex-grow: 1;
+    }
+
+    &__submit {
+        margin: 0;
+    }
+
+    &__graphic-delete {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+}
+
+.saved-images {
+    padding: 20px 10px;
+
+    &__list {
+        @extend .image-preview;
+
+    }
+    
+    &__item {
+        @extend .image-preview__item;
+    }
+}

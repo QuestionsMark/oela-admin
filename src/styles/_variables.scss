@@ -1,0 +1,42 @@
+$lighter-green: #d2dbad;
+$light-green: #d2dbad;
+$green: #9caa64;
+$dark-green: #435711;
+$darker-green: #1c3103;
+$yellow: #fcf196;
+$red: #cf5b5b;
+
+$sm-mobile: 520px;
+$mobile: 768px;
+$sm-pc: 1024px;
+$md-pc: 1366px;
+$pc: 1700px;
+
+@mixin shadow {
+    -webkit-box-shadow: 0px 8px 10px -5px rgba(66, 68, 90, 1);
+-moz-box-shadow: 0px 8px 10px -5px rgba(66, 68, 90, 1);
+box-shadow: 0px 8px 10px -5px rgba(66, 68, 90, 1);
+}
+
+@mixin shadow3D {
+    -webkit-box-shadow: 8px 8px 10px -5px rgba(66, 68, 90, 1);
+-moz-box-shadow: 8px 8px 10px -5px rgba(66, 68, 90, 1);
+box-shadow: 8px 8px 10px -5px rgba(66, 68, 90, 1);
+}
+@mixin shadow3D-hover {
+    -webkit-box-shadow: 8px 8px 20px -5px rgba(66, 68, 90, 1);
+-moz-box-shadow: 8px 8px 20px -5px rgba(66, 68, 90, 1);
+box-shadow: 8px 8px 20px -5px rgba(66, 68, 90, 1);
+}
+
+@mixin light-shadow3D {
+    -webkit-box-shadow: 4px 8px 8px -4px rgba(66, 68, 90, 1);
+-moz-box-shadow: 4px 8px 8px -4px rgba(66, 68, 90, 1);
+box-shadow: 4px 8px 8px -4px rgba(66, 68, 90, 1);
+}
+@mixin light-shadow3D-focus {
+    -webkit-box-shadow: 4px 8px 16px -4px rgba(66, 68, 90, 1);
+-moz-box-shadow: 4px 8px 16px -4px rgba(66, 68, 90, 1);
+box-shadow: 4px 8px 16px -4px rgba(66, 68, 90, 1);
+}
+

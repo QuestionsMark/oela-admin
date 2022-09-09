@@ -1,0 +1,59 @@
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: -20px; // korekta po pojedynczych elementach
+
+    @media (min-width: $sm-mobile) {
+        justify-content: flex-start;
+    }
+
+    
+    &__item {
+        position: relative;
+        flex-basis: calc(100% - 20px);
+        border-radius: 10px;
+        margin: 0 10px 20px;
+        background-color: white;
+        overflow: hidden;
+        
+        @media (min-width: $sm-mobile) {
+            flex-basis: calc(50% - 20px);
+        }
+
+        @media (min-width: $mobile) {
+            flex-basis: calc(33.33333% - 20px);
+        }
+    }
+
+    &__img-wrapper {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+
+    &__info {
+        margin: 0 0 10px 10px;
+        color: $dark-green;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    &__delete-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    &__order-btn {
+        @extend .btn--delete-icon;
+        position: absolute;
+        right: 10px;
+        top: 42px;
+        background-color: $green;
+
+        &:hover {
+            background-color: darken($green, 10%);
+        }
+    }
+}

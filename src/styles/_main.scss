@@ -1,0 +1,120 @@
+html {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+*::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: $green;
+}
+*::-webkit-scrollbar-track {
+    background-color: $darker-green;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(165deg, rgba(210,219,173,1) 0%, rgba(156,170,100,1) 27%, rgba(67,87,17,1) 100%);
+    z-index: -1;
+}
+
+.main {
+    padding: 10px;
+
+    &.covers {
+        padding-top: 20px;
+    }
+}
+
+.img-wrapper {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(67, 87, 17, 0.2);
+    animation: image-loading 3s linear infinite;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+
+    &__section {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    &__item {
+        @include shadow3D;
+        position: relative;
+        flex-basis: calc(100% - 20px);
+        border-radius: 10px;
+        margin: 0 10px 20px;
+        background-color: white;
+        overflow: hidden;
+        transition: 0.2s;
+
+        &:hover {
+            @include shadow3D-hover;
+        }
+
+        @media (min-width: $sm-mobile) {
+            flex-basis: calc(50% - 20px);
+        }
+        @media (min-width: $mobile) {
+            flex-basis: calc(33% - 20px);
+        }
+        @media (min-width: $sm-pc) {
+            flex-basis: calc(25% - 20px);
+        }
+        @media (min-width: $md-pc) {
+            flex-basis: calc(20% - 20px);
+        }
+    }
+
+    &__small-item {
+        display: flex;
+        align-items: center;
+        padding: 16px 20px;
+        border-radius: 30px;
+        color: $dark-green;
+        font-size: 18px;
+        font-weight: bold;
+        flex-basis: auto;
+    }
+
+    &__link {
+        text-decoration: none;
+    }
+
+    &__item-title {
+        padding: 14px;
+        text-align: center;
+        color: $dark-green;
+        font-size: 18px;
+    }
+
+    &__small-item-title {
+        margin-right: 20px;
+    }
+}
+
+.saved-images {
+    &__title {
+        padding-left: 10px;
+    }
+}

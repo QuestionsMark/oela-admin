@@ -1,0 +1,129 @@
+.st0{fill:#3C3C3B;}
+.st1{fill:#F18B8D;}
+.st2{fill:#FBDBA3;}
+.st3{fill:#F5A57A;}
+.st4{fill:#56B577;}
+.st5{fill:#FBC35F;}
+.st6{fill:#99D0BB;}
+.st7{fill:#878787;}
+.st8{fill:#66B54B;}
+.st9{fill:#4AB5A2;}
+.st10{fill:#358FBB;}
+.st11{fill:#5AB24B;}
+.st12{fill:#A8B7BF;}
+.st13{fill:#F39F9E;}
+.st14{fill:#F8C0B8;}
+.st15{fill:#5E3F29;}
+.st16{fill:#43A635;}
+.st17{fill:#836653;}
+.st18{fill:#4DB484;}
+.st19{fill:#B5774B;}
+.st20{fill:#F6B3B0;}
+.st21{fill:#F8BEA0;}
+.st22{fill:#A9D5BD;}
+.st23{fill:#FBE6C1;}
+.st24{fill:#FCFCFC;}
+.st25{fill:#D39FC9;}
+.st26{fill:#CFE0D7;}
+.st27{fill:#BDDECA;}
+.st28{fill:#FAD4C1;}
+.st29{fill:#AB917F;}
+.st30{fill:#D0B099;}
+.st31{fill:#FFFFFF;}
+.st32{fill:#85BF5E;}
+.st33{fill:#53B04A;}
+.st34{fill:#C7C9CC;}
+.st35{fill:#B17F4A;}
+.st36{fill:#FBBC4E;}
+.st37{fill:#ED6D67;}
+.st38{fill:#F49851;}
+.st39{fill:#403D40;}
+.st40{fill:#FBEFB5;}
+.st41{fill:#F2969B;}
+.st42{fill:#BCD4C4;}
+.st43{fill:#24211E;}
+.st44{fill:#82BB26;}
+.st45{fill:#C9A1CB;}
+.st46{fill:#C6918E;}
+.st47{fill:#9FC8BE;}
+.st48{fill:#AF175D;}
+.st49{fill:#A2B43A;}
+.st50{fill:#884795;}
+.st51{fill:#ED949A;}
+.st52{fill:#00A33A;}
+.st53{fill:#CB7FB4;}
+.st54{fill:#FEC600;}
+.st55{fill:#F088B2;}
+.st56{fill:#D1DAA2;}
+.st57{fill:#BBB4AD;}
+.st58{fill:#BFA999;}
+.st59{fill:#BEB8B2;}
+.st60{fill:#E30613;}
+.st61{fill:#F28B00;}
+.st62{fill:#00A8E4;}
+.st63{fill:#13110C;}
+.st64{fill:#6E3B11;}
+.st65{fill:#B57D44;}
+.st66{fill:#844C16;}
+.st67{fill:#EDE1DD;}
+.st68{fill:#3B3835;}
+.st69{fill:#E4D4C6;}
+.st70{fill:#91D4F1;}
+.st71{fill:#897561;}
+.st72{fill:#F4B1B2;}
+.st73{fill:#55B478;}
+.st74{fill:#C97FB3;}
+.st75{fill:#A29F9D;}
+.st76{fill:#97CFBA;}
+.st77{fill:#368DB8;}
+.st78{fill:#F087B0;}
+.st79{fill:#9EC6BD;}
+
+.flower-animation {
+    position: relative;
+    width: calc(100% - 120px);
+    max-width: 400px;
+    aspect-ratio: 1/1;
+    margin: 50px auto;
+
+    &__img {
+        display: block;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        width: calc(30%);
+        max-width: 130px;
+        aspect-ratio: 1/1;
+
+        &:nth-child(1) {
+            left: 0;
+            top: 60%;
+            z-index: 2;
+            animation: flower-animation 5s infinite ease-in-out alternate;
+        }
+        &:nth-child(2) {
+            left: 25%;
+            top: 45%;
+            z-index: 1;
+            animation: flower-animation 5s 0.5s infinite ease-in-out alternate;
+        }
+        &:nth-child(3) {
+            left: 50%;
+            top: 40%;
+            z-index: 2;
+            animation: flower-animation 5s 1s infinite ease-in-out alternate;
+        }
+        &:nth-child(4) {
+            left: 75%;
+            top: 45%;
+            z-index: 1;
+            animation: flower-animation 5s 1.5s infinite ease-in-out alternate;
+        }
+        &:nth-child(5) {
+            left: 100%;
+            top: 60%;
+            z-index: 2;
+            animation: flower-animation 5s 2s infinite ease-in-out alternate;
+        }
+    }
+}

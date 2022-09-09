@@ -1,0 +1,128 @@
+.show-scale-animation {
+    transform: scale(0);
+    animation: show-scale 0.4s 1s ease forwards;
+}
+
+.section-animation {
+    opacity: 0;
+    transform: translate(0, 60px) scale(0.9);
+    animation: show-section 0.3s cubic-bezier(.4,1.51,.82,.98) forwards;
+    @for $i from 1 through 5 {
+        &:nth-of-type(#{$i}n) {
+            animation-delay: #{$i * 0.1 - 0.1}s;
+        }
+    }
+}
+
+.card-animation {
+    opacity: 0;
+    transform: rotateZ(-30deg) scale(0.3);
+    transform-origin: 30% 70%;
+    animation: show-card 0.3s cubic-bezier(.4,1.51,.82,.98) forwards;
+    @for $i from 1 through 20 {
+        &:nth-of-type(#{$i}n) {
+            animation-delay: #{$i * 0.05 - 0.05}s;
+        }
+    }
+
+    &--saved-images {
+        transform: translateX(200px) rotateZ(0) scale(1);
+        animation: show-card 0.3s cubic-bezier(.47,.16,.18,1.29) forwards;
+    }
+}
+
+.tag-animation {
+    opacity: 0;
+    transform: translateX(50px);
+    animation: show-tag 0.3s cubic-bezier(.45,.37,.27,1.38) forwards;
+    @for $i from 1 through 50 {
+        &:nth-of-type(#{$i}n) {
+            animation-delay: #{$i * 0.05 - 0.05}s;
+        }
+    }
+}
+
+.form-content-animation {
+    opacity: 0;
+    animation: show-opacity 0.2s 0.4s linear forwards;
+}
+
+
+@keyframes show-section {
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes show-card {
+    100% {
+        opacity: 1;
+        transform: rotateZ(0deg) scale(1);
+    }
+}
+
+@keyframes show-tag {
+    100% {
+        opacity: 1;
+        transform: rotateX(0) ;
+    }
+}
+
+@keyframes show-saved-image {
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes show-scale {
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes show-popup {
+    100% {
+        background-color: rgba(0,0,0,0.6);
+    }
+}
+
+@keyframes show-popup-form {
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes show-opacity {
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+
+
+
+@keyframes image-loading {
+    50% {
+        background-color: rgba(67, 87, 17, 0.5);
+    }
+    100% {
+        background-color: rgba(67, 87, 17, 0.2);
+    }
+}
+
+@keyframes flower-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(360deg);
+    }
+}
