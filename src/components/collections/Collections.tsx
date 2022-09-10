@@ -13,7 +13,7 @@ export const Collections = () => {
 
     const [refreshData, setRefreshData] = useState(false);
 
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<CollectionInterface>('collections', 20, refreshData);
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<CollectionInterface>('collection', 20, refreshData);
 
     const observer = useRef<IntersectionObserver>();
     const lastDataElementRef = useCallback(node => {

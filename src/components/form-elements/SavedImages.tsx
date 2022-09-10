@@ -1,5 +1,4 @@
-import { Img } from "types";
-import { Model } from "../common/PopupForm";
+import { Img, Model } from "types";
 import { SavedImageItem } from "./SavedImageItem";
 
 interface Props {

@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from './components/App';
 
 import { AuthorizationProvider } from './contexts/authorizationContext';
+import { PopupProvider } from "./contexts/popupContext";
 import reportWebVitals from './reportWebVitals';
 
 import './styles/index.scss';
@@ -13,7 +14,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <AuthorizationProvider>
-        <App />
+        <PopupProvider>
+          <App />
+        </PopupProvider>
       </AuthorizationProvider>
     </Router>
   </React.StrictMode>,

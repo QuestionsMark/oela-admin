@@ -17,29 +17,32 @@ import { fetchWithFileUpload } from "../../utils/fetchUtils";
 import { usePopup } from "../../contexts/popupContext";
 import { FormAction, formReducer } from "../../reducers/formReducer";
 import { getServerMessage } from "../../utils/getServerMessage";
+import { ChooseHashtagForm } from "../form-elements/ChooseHashtagForm";
 
 interface Props {
     close: () => void;
 }
 
 export interface ProductElement {
-    shopLink: string;
-    name: string;
     description: string;
-    specifications: SpecificationInterface[];
-    productType: string;
+    hashtags: string[];
     images: File[] | null;
+    name: string;
     preview: ImagePreview[];
+    productType: string;
+    shopLink: string;
+    specifications: SpecificationInterface[];
 }
 
 export const defaultProduct: ProductElement = {
-    name: '',
     description: '',
+    hashtags: [],
+    images: null,
+    name: '',
+    preview: [],
     productType: '',
     shopLink: '',
     specifications: [],
-    images: null,
-    preview: [],
 }
 
 export const ProductForm = ({ close }: Props) => {
@@ -53,16 +56,24 @@ export const ProductForm = ({ close }: Props) => {
         e.preventDefault();
         if (validationErrors.length !== 0) return;
         const data = new FormData();
-        for (const img of product.images as File[]) {
-            data.append('img', img);
-        }
-        data.append('data', JSON.stringify({
+        data.append('data', JSON.stringify((({ images, ...o }) => o)({
             ...product,
-            images: product.preview.map(p => ({ alt: p.alt })),
-        }));
+            preview: product.preview.map(p => ({ alt: p.alt })),
+        })));
+
+        // for (const [key, value] of Object.entries((({ images, ...o }) => o)({
+        //     ...product,
+        //     preview: product.preview.map(p => ({ alt: p.alt })),
+        // }))) {
+        //     data.append(key, );
+        // }
+
+        for (const img of product.images as File[]) {
+            data.append('image', img);
+        }
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        dispatch({ type: 'FORM_SET', payload: defaultProduct });
-        const response = await fetchWithFileUpload('products', 'POST', data);
+        // dispatch({ type: 'FORM_SET', payload: defaultProduct });
+        const response = await fetchWithFileUpload('product', 'POST', data);
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         close();
@@ -74,6 +85,7 @@ export const ProductForm = ({ close }: Props) => {
     const descriptionFormComponent = useMemo(() => <DescriptionForm value={product.description} dispatch={dispatch} />, [product.description]);
     const shopLinkFormComponent = useMemo(() => <ShopLinkForm value={product.shopLink} dispatch={dispatch} />, [product.shopLink]);
     const productTypeFormComponent = useMemo(() => <ChooseProductTypeForm value={product.productType} dispatch={dispatch} />, [product.productType]);
+    const chooseHashtagFormComponent = useMemo(() => <ChooseHashtagForm value={product.hashtags} dispatch={dispatch} />, [product.hashtags]);
     const specificationsFormComponent = useMemo(() => <SpecificationsForm value={product.specifications} dispatch={dispatch} />, [product.specifications]);
 
     useEffect(() => {
@@ -88,6 +100,7 @@ export const ProductForm = ({ close }: Props) => {
             {descriptionFormComponent}
             {shopLinkFormComponent}
             {productTypeFormComponent}
+            {chooseHashtagFormComponent}
             {specificationsFormComponent}
             <ValidationErrorsList errors={validationErrors} />
             <SubmitButton errors={validationErrors.length} value="Dodaj produkt" />

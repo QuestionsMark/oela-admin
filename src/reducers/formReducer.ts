@@ -6,7 +6,7 @@ import { NewsElement } from "../components/news/NewsForm";
 import { CoverElement } from "../components/covers/CoverForm";
 
 interface FormState {
-    cards?: string[];
+    products?: string[];
     description?: string;
     hashtags?: string[];
     images?: File[] | null;
@@ -217,9 +217,9 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
 
         case 'CARDS_CHANGE': {
             const { payload } = action;
-            const isChecked = state.cards?.findIndex(c => c === payload) !== -1;
-            if (isChecked) return { ...state, cards: state.cards?.filter(c => c !== payload) };
-            return { ...state, cards: [...state.cards as string[], payload] };
+            const isChecked = state.products?.findIndex(c => c === payload) !== -1;
+            if (isChecked) return { ...state, products: state.products?.filter(c => c !== payload) };
+            return { ...state, products: [...state.products as string[], payload] };
         }
 
         case 'HASHTAGS_CHANGE': {

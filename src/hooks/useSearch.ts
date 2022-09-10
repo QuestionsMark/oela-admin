@@ -43,7 +43,6 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
             setPage(1);
             setSearch(searchPhrase);
         }, 500);
-        return clearTimeout(debounceTimeoutId.current);
     }, [searchPhrase]);
 
     const [loading, setLoading] = useState(true);
@@ -76,7 +75,7 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
                 const endTime = new Date().valueOf();
                 delayTimeoutId.current = setTimeout(() => {
                     setLoading(false);
-                    setAmount(res.data.amount);
+                    setAmount(res.data.count);
                     setData(prev => [...prev, ...res.data.results]);
                     setHasMore(res.data.results.length > 0);
                 }, endTime - startTime < 500 ? 500 - (endTime - startTime) : 0);
@@ -92,7 +91,6 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
                         return;
                     }
                     if (axios.isCancel(e)) return;
-                    // setError({ message: 'Wystąpił błąd podczas pobierania danych.' });
                     setResponsePopup({ message: 'Wystąpił błąd podczas pobierania danych.', status: false, open: true });
                 }, endTime - startTime < 500 ? 500 - (endTime - startTime) : 0);
             });

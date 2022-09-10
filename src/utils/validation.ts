@@ -18,7 +18,7 @@ const checkChanges = (actualData: ProductElement, prevData: ProductInterface): b
 
     return actualData.description === prevData.description &&
         actualData.name === prevData.name &&
-        actualData.productType === prevData.productType &&
+        actualData.productType === prevData.productType.id &&
         actualData.shopLink === prevData.shopLink &&
         checkSpecifications() &&
         actualData.preview?.length === 0
@@ -32,18 +32,10 @@ const checkNewsChanges = (actualData: NewsElement, prevData: NewsInterface): boo
 
 const checkCollectionChanges = (actualData: CollectionElement, prevData: CollectionInterface): boolean => {
     const checkCards = (): boolean => {
-        if (actualData.cards.length !== prevData.products.length) return false;
+        if (actualData.products.length !== prevData.products.length) return false;
         let changes = [...prevData.products];
-        for (const cardId of actualData.cards) {
+        for (const cardId of actualData.products) {
             changes = changes.filter(s => s.id !== cardId);
-        }
-        return changes.length === 0 || false;
-    }
-    const checkHashtags = (): boolean => {
-        if (actualData.hashtags.length !== prevData.hashtags.length) return false;
-        let changes = [...prevData.hashtags];
-        for (const hashtag of actualData.hashtags) {
-            changes = changes.filter(s => s !== hashtag);
         }
         return changes.length === 0 || false;
     }
@@ -51,8 +43,7 @@ const checkCollectionChanges = (actualData: CollectionElement, prevData: Collect
     return actualData.description === prevData.description &&
         actualData.name === prevData.name &&
         actualData.preview?.length === 0 &&
-        checkCards() &&
-        checkHashtags()
+        checkCards()
 };
 
 export function checkProductValidation(product: ProductElement): string[] {
@@ -339,8 +330,8 @@ export function checkCoverValidation(cover: CoverElement): string[] {
 
     const { preview } = cover;
 
-    if (preview.length !== 1) {
-        errors.push('Okładka musi zawierać dokładnie jedną grafikę.');
+    if (preview.length < 1) {
+        errors.push('Dodaj conajmniej jedną grafikę.');
     }
 
     const checkImageAlt = preview.find(i => i.alt === '');

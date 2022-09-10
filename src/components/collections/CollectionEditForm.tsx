@@ -4,7 +4,6 @@ import { CollectionInterface } from "types";
 import { SubmitButton } from "../common/SubmitButton";
 import { ValidationErrorsList } from "../common/ValidationErrorsList";
 import { ChooseCardsForm } from "../form-elements/ChooseCardsForm";
-import { ChooseHashtagForm } from "../form-elements/ChooseHashtagForm";
 import { DescriptionForm } from "../form-elements/DescriptionForm";
 import { ImagesForm } from "../form-elements/ImagesForm";
 import { NameForm } from "../form-elements/NameForm";
@@ -36,15 +35,15 @@ export const CollectionEditForm = ({ data, id, refresh }: Props) => {
         const data = new FormData();
         if (collection.images) {
             for (const img of collection.images as File[]) {
-                data.append('img', img);
+                data.append('image', img);
             }
         }
-        data.append('data', JSON.stringify({
+        data.append('data', JSON.stringify((({ images, ...o}) => o)({
             ...collection,
-            images: collection.preview.map(p => ({ alt: p.alt })),
-        }));
+            preview: collection.preview.map(p => ({ alt: p.alt })),
+        })));
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchWithFileUpload(`collections/${id}`, 'PATCH', data);
+        const response = await fetchWithFileUpload(`collection/${id}`, 'PUT', data);
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         dispatch({ type: "IMAGES_CHANGE", payload: null });
@@ -55,8 +54,7 @@ export const CollectionEditForm = ({ data, id, refresh }: Props) => {
     const previewFormComponent = useMemo(() => <Preview preview={collection.preview} dispatch={dispatch} />, [collection.preview]);
     const nameFormComponent = useMemo(() => <NameForm value={collection.name} dispatch={dispatch} />, [collection.name]);
     const descriptionFormComponent = useMemo(() => <DescriptionForm value={collection.description} dispatch={dispatch} />, [collection.description]);
-    const cardsToChooseFormComponent = useMemo(() => <ChooseCardsForm value={collection.cards} dispatch={dispatch} />, [collection.cards]);
-    const chooseHashtagFormComponent = useMemo(() => <ChooseHashtagForm value={collection.hashtags} dispatch={dispatch} />, [collection.hashtags]);
+    const cardsToChooseFormComponent = useMemo(() => <ChooseCardsForm value={collection.products} dispatch={dispatch} />, [collection.products]);
 
     useEffect(() => {
         setValidationErrors(checkEditCollectionValidation(collection, data));
@@ -66,7 +64,12 @@ export const CollectionEditForm = ({ data, id, refresh }: Props) => {
         if (!data) return;
         dispatch({
             type: "FORM_SET",
-            payload: (({ id, ...o }) => o)({ ...data, images: null, preview: [], cards: data.products.map(c => c.id) }),
+            payload: (({ id, ...o }) => o)({
+                ...data,
+                images: null,
+                preview: [],
+                products: data.products.map(c => c.id)
+            }),
         });
     }, [data]);
 
@@ -77,7 +80,6 @@ export const CollectionEditForm = ({ data, id, refresh }: Props) => {
             {nameFormComponent}
             {descriptionFormComponent}
             {cardsToChooseFormComponent}
-            {chooseHashtagFormComponent}
             <ValidationErrorsList errors={validationErrors} />
             <SubmitButton errors={validationErrors.length} value="Aktualizuj Kolekcję" />
         </form>

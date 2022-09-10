@@ -10,7 +10,6 @@ import { FormAction, formReducer } from "../../reducers/formReducer";
 import { fetchWithFileUpload } from "../../utils/fetchUtils";
 import { ValidationErrorsList } from "../common/ValidationErrorsList";
 import { SubmitButton } from "../common/SubmitButton";
-import { ChooseHashtagForm } from "../form-elements/ChooseHashtagForm";
 import { ChooseCardsForm } from "../form-elements/ChooseCardsForm";
 import { checkCollectionValidation } from "../../utils/validation";
 
@@ -19,18 +18,16 @@ interface Props {
 }
 
 export interface CollectionElement {
-    cards: string[];
+    products: string[];
     description: string;
-    hashtags: string[];
     images: File[] | null;
     name: string;
     preview: ImagePreview[];
 }
 
 export const defaultCollection: CollectionElement = {
-    cards: [],
+    products: [],
     description: '',
-    hashtags: [],
     images: null,
     name: '',
     preview: [],
@@ -48,26 +45,25 @@ export const CollectionForm = ({ close }: Props) => {
         if (validationErrors.length !== 0) return;
         const data = new FormData();
         for (const img of collection.images as File[]) {
-            data.append('img', img);
+            data.append('image', img);
         }
-        data.append('data', JSON.stringify({
+        data.append('data', JSON.stringify((({ images, ...o }) => o)({
             ...collection,
-            images: collection.preview.map(p => ({ alt: p.alt })),
-        }));
+            preview: collection.preview.map(p => ({ alt: p.alt })),
+        })));
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
         dispatch({ type: 'FORM_SET', payload: defaultCollection });
-        const { message, status } = await fetchWithFileUpload('collections', 'POST', data);
+        const response = await fetchWithFileUpload('collection', 'POST', data);
+        if (!response.status) return setResponsePopup({ status: response.status, message: response.message, open: true });
+        setResponsePopup({ message: response.message, status: response.status, open: true });
         close();
-        setResponsePopup({ message, status, open: true });
     };
 
-    // Jest sens wrapować w useMemo jeśli input type="file" jest niemożliwy do kontrolowania???
     const imagesFormComponent = useMemo(() => <ImagesForm dispatch={dispatch} />, []);
     const previewFormComponent = useMemo(() => <Preview preview={collection.preview} dispatch={dispatch} />, [collection.preview]);
     const nameFormComponent = useMemo(() => <NameForm value={collection.name} dispatch={dispatch} />, [collection.name]);
     const descriptionFormComponent = useMemo(() => <DescriptionForm value={collection.description} dispatch={dispatch} />, [collection.description]);
-    const cardsToChooseFormComponent = useMemo(() => <ChooseCardsForm value={collection.cards} dispatch={dispatch} />, [collection.cards]);
-    const chooseHashtagFormComponent = useMemo(() => <ChooseHashtagForm value={collection.hashtags} dispatch={dispatch} />, [collection.hashtags]);
+    const cardsToChooseFormComponent = useMemo(() => <ChooseCardsForm value={collection.products} dispatch={dispatch} />, [collection.products]);
 
     useEffect(() => {
         setValidationErrors(checkCollectionValidation(collection));
@@ -80,7 +76,6 @@ export const CollectionForm = ({ close }: Props) => {
             {nameFormComponent}
             {descriptionFormComponent}
             {cardsToChooseFormComponent}
-            {chooseHashtagFormComponent}
             <ValidationErrorsList errors={validationErrors} />
             <SubmitButton errors={validationErrors.length} value="Dodaj Kolekcję" />
         </form>

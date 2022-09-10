@@ -22,7 +22,7 @@ export const HashtagItem = ({ hashtag, refference, refresh }: Props) => {
 
     const handleDelete = async () => {
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchTool(`hashtags/${id}`, 'DELETE');
+        const response = await fetchTool(`hashtag/${id}`, 'DELETE');
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         refresh();

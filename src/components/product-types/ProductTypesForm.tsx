@@ -34,7 +34,7 @@ export const ProductTypesForm = ({ close }: Props) => {
         if (validationErrors.length !== 0) return;
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
         dispatch({ type: 'NAME_CHANGE', payload: '' });
-        const response = await fetchTool('product-types', 'POST', productType);
+        const response = await fetchTool('product-type', 'POST', productType);
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         close();

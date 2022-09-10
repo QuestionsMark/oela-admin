@@ -13,7 +13,7 @@ export const Products = () => {
 
     const [refreshData, setRefreshData] = useState(false);
 
-    const { amount, data, loading, hasMore, searchPhrase, page, setPage, handleSearchPhraseChange } = useSearch<ProductInterface>('products', 20, refreshData);
+    const { amount, data, loading, hasMore, searchPhrase, page, setPage, handleSearchPhraseChange } = useSearch<ProductInterface>('product', 20, refreshData);
 
     const observer = useRef<IntersectionObserver>();
     const lastDataElementRef = useCallback(node => {

@@ -1,7 +1,6 @@
 import { FormEvent, useState } from "react";
 import { fetchTool } from "../../utils/fetchUtils";
-import { Img } from "types";
-import { Model } from "../common/PopupForm";
+import { Img, Model } from "types";
 import { getModel } from '../../utils/getModel';
 import { usePopup } from "../../contexts/popupContext";
 import { getServerMessage } from "../../utils/getServerMessage";
@@ -26,7 +25,7 @@ export const SavedImageItem = ({ id, image, model, refresh }: Props) => {
 
     const handleDelete = async () => {
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchTool(`${getModel(model)}/${id}/image/${id}`, 'DELETE');
+        const response = await fetchTool(`${getModel(model)}/${id}/image/${src}`, 'DELETE');
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         refresh();
@@ -35,7 +34,7 @@ export const SavedImageItem = ({ id, image, model, refresh }: Props) => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchTool(`${getModel(model)}/${id}/image-alt/${id}`, 'PUT', { alt });
+        const response = await fetchTool(`${getModel(model)}/${src}/image-alt`, 'PATCH', { alt });
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         refresh();

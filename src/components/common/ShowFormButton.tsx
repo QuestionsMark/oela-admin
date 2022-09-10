@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { Model, PopupForm } from "./PopupForm";
+import { PopupForm } from "./PopupForm";
+import { Model } from "types";
 
 interface Props {
     model: Model;

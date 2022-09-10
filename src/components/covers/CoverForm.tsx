@@ -38,14 +38,14 @@ export const CoverForm = ({ close }: Props) => {
         if (validationErrors.length !== 0) return;
         const data = new FormData();
         for (const img of cover.images as File[]) {
-            data.append('img', img);
+            data.append('image', img);
         }
         data.append('data', JSON.stringify({
-            images: cover.preview.map(p => ({ alt: p.alt })),
+            preview: cover.preview.map(p => ({ alt: p.alt })),
         }));
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        dispatch({ type: 'FORM_SET', payload: defaultCover });
-        const response = await fetchWithFileUpload('covers', 'POST', data);
+        // dispatch({ type: 'FORM_SET', payload: defaultCover });
+        const response = await fetchWithFileUpload('cover', 'POST', data);
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         close();

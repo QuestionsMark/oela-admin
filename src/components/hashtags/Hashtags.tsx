@@ -14,7 +14,7 @@ export const Hashtags = () => {
 
     const [refreshData, setRefreshData] = useState(false);
 
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<HashtagInterface>('hashtags', 50, refreshData);
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<HashtagInterface>('hashtag', 50, refreshData);
 
     const observer = useRef<IntersectionObserver>();
     const lastDataElementRef = useCallback(node => {

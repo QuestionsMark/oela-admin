@@ -13,7 +13,7 @@ export const Covers = () => {
 
     const [refreshData, setRefreshData] = useState(false);
 
-    const { amount, data, loading, hasMore, page, setPage } = useSearch<CoverInterface>('covers', 10, refreshData);
+    const { amount, data, loading, hasMore, page, setPage } = useSearch<CoverInterface>('cover', 10, refreshData);
 
     const observer = useRef<IntersectionObserver>();
     const lastDataElementRef = useCallback(node => {

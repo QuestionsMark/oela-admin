@@ -13,7 +13,7 @@ export const ProductTypes = () => {
 
     const [refreshData, setRefreshData] = useState(false);
 
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<ProductTypeInterface>('product-types', 50, refreshData);
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<ProductTypeInterface>('product-type', 50, refreshData);
 
     const observer = useRef<IntersectionObserver>();
     const lastDataElementRef = useCallback(node => {
