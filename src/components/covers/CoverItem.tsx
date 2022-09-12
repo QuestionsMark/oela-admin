@@ -28,7 +28,7 @@ export const CoverItem = ({ cover, refference, refresh }: Props) => {
     };
 
     return (
-        <li className="list__item card-animation" ref={refference ? refference : null}>
+        <li className="list__item card-animation" ref={refference ?? null}>
             <Image alt={image.alt} src={image.id} />
             <DeleteButton className="btn--delete-cover" handler={handleDelete} question="Czy napewno chcesz usunąć okładkę?">Usuń</DeleteButton>
         </li>

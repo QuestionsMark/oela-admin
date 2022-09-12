@@ -29,7 +29,7 @@ export const HashtagItem = ({ hashtag, refference, refresh }: Props) => {
     };
 
     return (
-        <li className="list__item list__small-item tag-animation" ref={refference ? refference : null}>
+        <li className="list__item list__small-item tag-animation" ref={refference ?? null}>
             <p className="list__small-item-title">{name}</p>
             <DeleteButton handler={handleDelete} question="Czy napewno chcesz usunąć hashtag?" onlyIcon><FontAwesomeIcon icon={faMinus} /></DeleteButton>
         </li>

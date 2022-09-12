@@ -1,4 +1,4 @@
-import { ProductInterface, NewsInterface, CollectionInterface, HashtagInterface, ProductTypeInterface, CoverInterface } from "types";
+import { ProductInterface, NewsInterface, CollectionInterface, HashtagInterface, ProductTypeInterface, CoverInterface, SpecificationInterface } from "types";
 import { ProductElement } from "../components/products/ProductForm";
 import { NewsElement } from "../components/news/NewsForm";
 import { CollectionElement } from "../components/collections/CollectionForm";
@@ -6,21 +6,31 @@ import { HashtagElement } from "../components/hashtags/HashtagForm";
 import { ProductTypeElement } from "../components/product-types/ProductTypesForm";
 import { CoverElement } from "../components/covers/CoverForm";
 
-const checkChanges = (actualData: ProductElement, prevData: ProductInterface): boolean => {
-    const checkSpecifications = (): boolean => {
-        if (actualData.specifications.length !== prevData.specifications.length) return false;
-        let changes = [...prevData.specifications];
-        for (const { value, name } of actualData.specifications) {
-            changes = changes.filter(s => s.value !== value || s.name !== name);
-        }
-        return changes.length === 0 || false;
+const checkSpecifications = (actualSpecifications: SpecificationInterface[], prevSpecifications: SpecificationInterface[]): boolean => {
+    if (actualSpecifications.length !== prevSpecifications.length) return false;
+    let changes = [...prevSpecifications];
+    for (const { value, name } of actualSpecifications) {
+        changes = changes.filter(s => s.value !== value || s.name !== name);
     }
+    return changes.length === 0 || false;
+}
 
+const checkHashtags = (actualHashtags: string[], prevHashtags: string[]): boolean => {
+    if (prevHashtags.length !== actualHashtags.length) return false;
+    let changes = [...prevHashtags];
+    for (const hashtag of actualHashtags) {
+        changes = changes.filter(h => h !== hashtag);
+    }
+    return changes.length === 0;
+}
+
+const checkChanges = (actualData: ProductElement, prevData: ProductInterface): boolean => {
     return actualData.description === prevData.description &&
         actualData.name === prevData.name &&
         actualData.productType === prevData.productType.id &&
         actualData.shopLink === prevData.shopLink &&
-        checkSpecifications() &&
+        checkSpecifications(actualData.specifications, prevData.specifications) &&
+        checkHashtags(actualData.hashtags, prevData.hashtags.map(h => h.id)) &&
         actualData.preview?.length === 0
 };
 

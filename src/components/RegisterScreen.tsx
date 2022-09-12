@@ -2,11 +2,13 @@ import { FormEvent } from 'react';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Popup from "reactjs-popup";
+import { useAuthorization } from '../contexts/authorizationContext';
 import { usePopup } from "../contexts/popupContext";
 import { fetchTool } from "../utils/fetchUtils";
 
 export const RegisterScreen = () => {
     const { setResponsePopup } = usePopup();
+    const { setIsAccount } = useAuthorization();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
@@ -19,6 +21,7 @@ export const RegisterScreen = () => {
         const response = await fetchTool('user', 'POST', { email, login, password });
         if (!response.status) return setResponsePopup({ status: response.status, message: response.message, open: true });
         setResponsePopup({ status: response.status, message: response.message, open: true });
+        setIsAccount(true);
         setTimeout(() => {
             navigate('/login');
             setResponsePopup({ status: false, message: '', open: false });

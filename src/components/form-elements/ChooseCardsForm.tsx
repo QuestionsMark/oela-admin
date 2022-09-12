@@ -1,9 +1,7 @@
-import { Dispatch, useEffect, useRef, useState } from "react";
-import { fetchApiTool } from "../../utils/fetchUtils";
+import { Dispatch, useRef } from "react";
 import { FormAction } from "../../reducers/formReducer";
-import { FilteredProductInterface, ProductInterface } from "types";
+import { ProductInterface } from "types";
 import { ChooseCardItem } from "./ChooseCardItem";
-import { usePopup } from "../../contexts/popupContext";
 import { useSearch } from "../../hooks/useSearch";
 
 interface Props {
@@ -12,12 +10,9 @@ interface Props {
 }
 
 export const ChooseCardsForm = ({ value, dispatch }: Props) => {
-
-    const { setResponsePopup } = usePopup();
-
     const componentRef = useRef<HTMLUListElement>(null);
 
-    const { amount, data, handleSearchPhraseChange, hasMore, loading, page, searchPhrase, setPage } = useSearch<ProductInterface>('product', 20, false);
+    const { data } = useSearch<ProductInterface>('product', 20);
 
     const checkIsChecked = (id: string) => {
         return value.findIndex(c => c === id) !== -1;

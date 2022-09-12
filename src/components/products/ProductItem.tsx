@@ -13,7 +13,7 @@ export const ProductItem = ({ product, refference }: Props) => {
     const { id, name, images } = product;
 
     return (
-        <li className="list__item card-animation" ref={refference ? refference : null} >
+        <li className="list__item card-animation" ref={refference ?? null} >
             <Link to={`/product/${id}`} className="list__link" >
                 <Image alt={images[0].alt} src={images[0].id} />
                 <h2 className="list__item-title">{name}</h2>

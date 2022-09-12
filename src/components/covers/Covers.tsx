@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback } from "react";
 
 import { CoverInterface } from "types";
 
@@ -8,29 +8,12 @@ import { useSearch } from "../../hooks/useSearch";
 import { Loading } from "../common/Loading";
 import { ShowFormButton } from "../common/ShowFormButton";
 import { CoverItem } from "./CoverItem";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { LIMIT_COVER } from "../../utils/limitData";
 
 export const Covers = () => {
-
-    const [refreshData, setRefreshData] = useState(false);
-
-    const { amount, data, loading, hasMore, page, setPage } = useSearch<CoverInterface>('cover', 10, refreshData);
-
-    const observer = useRef<IntersectionObserver>();
-    const lastDataElementRef = useCallback(node => {
-        if (loading || amount < page * 50) return;
-        if (observer.current) observer.current.disconnect()
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setPage(prev => prev + 1);
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, [loading, hasMore]);
-
-    const refresh = () => {
-        setPage(1);
-        setRefreshData(prev => !prev);
-    };
+    const { amount, data, loading, hasMore, page, setPage, refresh } = useSearch<CoverInterface>('cover', 10);
+    const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_COVER, setPage);
 
     const items = useCallback(() => {
         return data.map((i, index) => {
@@ -43,7 +26,7 @@ export const Covers = () => {
         <main className="main covers">
             <ShowFormButton model="COVER" refresh={refresh} />
             {loading ? <Loading /> : <section className="list">
-                <List items={items()} limit={50} />
+                <List items={items()} limit={LIMIT_COVER} />
             </section>}
         </main>
     );

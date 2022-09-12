@@ -7,6 +7,7 @@ interface AuthorizationContextValue {
     setAuthorization: Dispatch<SetStateAction<boolean>>;
     isAccount: boolean | null;
     setIsAccount: Dispatch<SetStateAction<boolean | null>>;
+    logout: () => void;
 }
 
 const AuthorizationContext = createContext<AuthorizationContextValue>(null!);
@@ -19,6 +20,11 @@ export const AuthorizationProvider: FC = ({ children }) => {
 
     const [authorization, setAuthorization] = useState(false);
     const [isAccount, setIsAccount] = useState<boolean | null>(null);
+
+    const logout = () => {
+        setAuthorization(false);
+        checkIsAccount();
+    };
 
     const checkIsAccount = async () => {
         const response = await fetchApiTool<boolean>('user/is-account');
@@ -51,7 +57,8 @@ export const AuthorizationProvider: FC = ({ children }) => {
             authorization,
             setAuthorization,
             isAccount,
-            setIsAccount
+            setIsAccount,
+            logout
         }}>
             {children}
         </AuthorizationContext.Provider>
