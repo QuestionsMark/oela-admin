@@ -12,7 +12,7 @@ import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { LIMIT_PRODUCT } from "../../utils/limitData";
 
 export const Products = () => {
-    const { amount, data, loading, hasMore, searchPhrase, page, setPage, handleSearchPhraseChange, refresh } = useSearch<ProductInterface>('product', 20);
+    const { amount, data, loading, hasMore, searchPhrase, page, setPage, handleSearchPhraseChange, refresh } = useSearch<ProductInterface>('product', LIMIT_PRODUCT);
     const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_PRODUCT, setPage);
 
     const items = useCallback(() => {

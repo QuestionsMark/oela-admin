@@ -12,7 +12,7 @@ import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { LIMIT_NEWS } from "../../utils/limitData";
 
 export const News = () => {
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<NewsInterface>('news', 20);
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<NewsInterface>('news', LIMIT_NEWS);
     const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_NEWS, setPage);
 
     const items = useCallback(() => {

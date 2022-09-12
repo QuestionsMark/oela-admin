@@ -12,7 +12,7 @@ import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { LIMIT_COVER } from "../../utils/limitData";
 
 export const Covers = () => {
-    const { amount, data, loading, hasMore, page, setPage, refresh } = useSearch<CoverInterface>('cover', 10);
+    const { amount, data, loading, hasMore, page, setPage, refresh } = useSearch<CoverInterface>('cover', LIMIT_COVER);
     const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_COVER, setPage);
 
     const items = useCallback(() => {

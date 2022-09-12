@@ -12,7 +12,7 @@ import { LIMIT_COLLECTION } from "../../utils/limitData";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 
 export const Collections = () => {
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<CollectionInterface>('collection', 20);
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<CollectionInterface>('collection', LIMIT_COLLECTION);
     const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_COLLECTION, setPage);
 
     const items = useCallback(() => {

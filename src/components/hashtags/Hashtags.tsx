@@ -13,7 +13,7 @@ import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { LIMIT_HASHTAG } from "../../utils/limitData";
 
 export const Hashtags = () => {
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<HashtagInterface>('hashtag', 50);
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<HashtagInterface>('hashtag', LIMIT_HASHTAG);
     const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_HASHTAG, setPage);
 
     const items = useCallback(() => {
