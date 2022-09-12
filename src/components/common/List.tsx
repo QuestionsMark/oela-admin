@@ -21,8 +21,6 @@ export const List = ({ limit, items }: Props) => {
         if (group.length !== 0) {
             groups.push(group);
         }
-        console.log({ groups });
-        
         return groups.map((g, i) => <div key={String(i)} className="list__section">{g}</div>);
     };
 
