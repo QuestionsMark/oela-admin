@@ -56,6 +56,7 @@ export const ProductForm = ({ close }: Props) => {
         e.preventDefault();
         if (validationErrors.length !== 0) return;
         const data = new FormData();
+
         data.append('data', JSON.stringify((({ images, ...o }) => o)({
             ...product,
             preview: product.preview.map(p => ({ alt: p.alt })),

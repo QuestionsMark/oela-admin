@@ -8,7 +8,10 @@ interface Props {
 export const Image = ({ alt, src }: Props) => {
     return (
         <div className="img-wrapper">
-            <img src={`${HOST_ADDRESS}/file/${src}`} alt={alt} className="img" crossOrigin="anonymous" />
+            <img
+                src={`${HOST_ADDRESS}/file/${src}`} alt={alt} className="img"
+                crossOrigin="anonymous"
+            />
         </div>
     );
 };
