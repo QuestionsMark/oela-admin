@@ -1,6 +1,7 @@
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Model } from 'types';
 
 import { CloseButton } from "./CloseButton";
 import { CollectionForm } from "../collections/CollectionForm";
@@ -9,8 +10,6 @@ import { HashtagForm } from "../hashtags/HashtagForm";
 import { NewsForm } from "../news/NewsForm";
 import { ProductForm } from "../products/ProductForm";
 import { CoverForm } from "../covers/CoverForm";
-
-export type Model = "COLLECTION" | "CARD" | "COVER" | "PICTURE" | "NEWS" | "PRODUCT" | "PRODUCT_TYPE" | "HASHTAG";
 
 interface Props {
     trigger: JSX.Element;

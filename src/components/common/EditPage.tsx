@@ -5,12 +5,11 @@ import { fetchApiTool, fetchTool } from "../../utils/fetchUtils";
 import { DeleteButton } from "../common/DeleteButton";
 import { ProductEditForm } from "../products/ProductEditForm";
 import { SavedImages } from "../form-elements/SavedImages";
-import { Model } from "./PopupForm";
 import { getModel } from "../../utils/getModel";
 import { CollectionEditForm } from "../collections/CollectionEditForm";
 import { NewsEditForm } from "../news/NewsEditForm";
 import { Loading } from "./Loading";
-import { CollectionInterface, NewsInterface, ProductInterface, ClientResponse } from "types";
+import { CollectionInterface, NewsInterface, ProductInterface, ClientResponse, Model } from "types";
 
 interface Props {
     model: Model;
@@ -30,17 +29,11 @@ export const EditPage = ({ model }: Props) => {
 
     const getButtonValue = () => {
         switch (model) {
-            case 'CARD':
-                return 'Usuń kartkę';
-
             case 'COLLECTION':
                 return 'Usuń kolekcję';
 
             case 'NEWS':
                 return 'Usuń nowość';
-
-            case 'PICTURE':
-                return 'Usuń obraz';
 
             case 'PRODUCT':
                 return 'Usuń produkt';
@@ -81,8 +74,8 @@ export const EditPage = ({ model }: Props) => {
         const response = await fetchTool(`${getModel(model)}/${id}`, 'DELETE') as ClientResponse;
         if (!response.status) return setResponsePopup({ message: response.message, open: true, status: response.status });
         const { message, status } = response;
-        navigation(`/${getModel(model)}`);
         setResponsePopup({ message, status, open: true });
+        navigation(`/${getModel(model)}`);
     };
 
     const getData = async () => {

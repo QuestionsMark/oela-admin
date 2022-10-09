@@ -1,26 +1,20 @@
-import { Model } from "../components/common/PopupForm";
+import { Model } from "types";
 
 export function getModel(model: Model) {
     switch (model) {
-        case 'CARD':
-            return 'cards';
-
         case 'COLLECTION':
-            return 'collections';
+            return 'collection';
 
         case 'HASHTAG':
-            return 'hashtags';
+            return 'hashtag';
 
         case 'NEWS':
             return 'news';
 
-        case 'PICTURE':
-            return 'pictures';
-
         case 'PRODUCT':
-            return 'products';
+            return 'product';
 
         case 'PRODUCT_TYPE':
-            return 'product-types';
+            return 'product-type';
     }
 }

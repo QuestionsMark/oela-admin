@@ -1,11 +1,12 @@
 import { Dispatch } from "react";
 import Popup from "reactjs-popup";
 import { HOST_ADDRESS } from "../../config";
-import { FilteredProductInterface } from "types";
+import { ProductInterface } from "types";
 import { FormAction } from "../../reducers/formReducer";
+import { Image } from "../common/Image";
 
 interface Props {
-    value: FilteredProductInterface;
+    value: ProductInterface;
     checked: boolean;
     dispatch: Dispatch<FormAction>;
 }
@@ -19,9 +20,10 @@ export const ChooseCardItem = ({ checked, value, dispatch }: Props) => {
             trigger={
                 <li
                     className={`form__card-item${checked ? ' active' : ''}`}
-                    style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${images[0].id})` }}
                     onClick={() => dispatch({ type: "CARDS_CHANGE", payload: id })}
-                />
+                >
+                    <Image alt={images[0].alt} src={images[0].id} />
+                </li>
             }
             mouseEnterDelay={0}
             mouseLeaveDelay={0}

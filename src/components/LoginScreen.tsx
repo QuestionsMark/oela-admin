@@ -1,39 +1,27 @@
-import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import Popup from "reactjs-popup";
 import { fetchTool } from "../utils/fetchUtils";
-import { ClientResponse, ClientApiResponse } from "types";
 import { useAuthorization } from "../contexts/authorizationContext";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import { usePopup } from "../contexts/popupContext";
 import { getServerMessage } from "../utils/getServerMessage";
+import { useNavigate } from "react-router-dom";
 
 export const LoginScreen = () => {
 
     const { setAuthorization } = useAuthorization();
     const { setResponsePopup } = usePopup();
-
-    // const [token, setToken] = useLocalStorage('token', '') as [string, Dispatch<SetStateAction<string>>];
+    const navigate = useNavigate();
 
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    // const checkAuthorization = async () => {
-    //     const { status } = await fetchTool(`authorization/${token}`) as ClientResponse;
-    //     if (status) return setAuthorization(true);
-    //     setAuthorization(false);
-    // };
-
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        const response = await fetchTool(`login/${login}/${password}`);
+        const response = await fetchTool('auth/login', 'POST', { login, password });
         if (!response.status) return setResponsePopup({ status: response.status, message: getServerMessage(response.message), open: true });
-        // setToken((response.results as LoginApi).token);
+        setAuthorization(true);
+        navigate('/');
     };
-
-    // useEffect(() => {
-    //     if (!token) return;
-    //     checkAuthorization();
-    // }, [token]);
 
     return (
         <Popup open modal closeOnDocumentClick={false} closeOnEscape={false} className="my-popup my-popup--modal">

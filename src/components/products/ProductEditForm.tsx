@@ -17,6 +17,7 @@ import { getServerMessage } from "../../utils/getServerMessage";
 import { usePopup } from "../../contexts/popupContext";
 import { FormAction, formReducer } from "../../reducers/formReducer";
 import { defaultProduct, ProductElement } from "./ProductForm";
+import { ChooseHashtagForm } from "../form-elements/ChooseHashtagForm";
 
 interface Props {
     data: ProductInterface;
@@ -37,15 +38,15 @@ export const ProductEditForm = ({ data, id, refresh }: Props) => {
         const data = new FormData();
         if (product.images) {
             for (const img of product.images as File[]) {
-                data.append('img', img);
+                data.append('image', img);
             }
         }
-        data.append('data', JSON.stringify({
+        data.append('data', JSON.stringify((({ images, ...o }) => o)({
             ...product,
-            images: product.preview.map(p => ({ alt: p.alt })),
-        }));
+            preview: product.preview.map(p => ({ alt: p.alt })),
+        })));
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchWithFileUpload(`products/${id}`, 'PATCH', data);
+        const response = await fetchWithFileUpload(`product/${id}`, 'PUT', data);
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         dispatch({ type: "IMAGES_CHANGE", payload: null });
@@ -58,6 +59,7 @@ export const ProductEditForm = ({ data, id, refresh }: Props) => {
     const descriptionFormComponent = useMemo(() => <DescriptionForm value={product.description} dispatch={dispatch} />, [product.description]);
     const shopLinkFormComponent = useMemo(() => <ShopLinkForm value={product.shopLink} dispatch={dispatch} />, [product.shopLink]);
     const productTypeFormComponent = useMemo(() => <ChooseProductTypeForm value={product.productType} dispatch={dispatch} />, [product.productType]);
+    const chooseHashtagFormComponent = useMemo(() => <ChooseHashtagForm value={product.hashtags} dispatch={dispatch} />, [product.hashtags]);
     const specificationsFormComponent = useMemo(() => <SpecificationsForm value={product.specifications} dispatch={dispatch} />, [product.specifications]);
 
     useEffect(() => {
@@ -68,7 +70,14 @@ export const ProductEditForm = ({ data, id, refresh }: Props) => {
         if (!data) return;
         dispatch({
             type: "FORM_SET",
-            payload: (({ id, ...o }) => o)({ ...data, images: null, preview: [], specifications: data.specifications.map(({ value, name }) => ({ value, name })) }),
+            payload: (({ id, ...o }) => o)({
+                ...data,
+                images: null,
+                preview: [],
+                specifications: data.specifications.map(({ value, name }) => ({ value, name })),
+                hashtags: data.hashtags.map(h => h.id),
+                productType: data.productType.id,
+            }),
         });
     }, [data]);
 
@@ -80,6 +89,7 @@ export const ProductEditForm = ({ data, id, refresh }: Props) => {
             {descriptionFormComponent}
             {shopLinkFormComponent}
             {productTypeFormComponent}
+            {chooseHashtagFormComponent}
             {specificationsFormComponent}
             <ValidationErrorsList errors={validationErrors} />
             <SubmitButton errors={validationErrors.length} value={'Aktualizuj produkt'} />

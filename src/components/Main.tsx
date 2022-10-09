@@ -14,15 +14,15 @@ export const Main = () => {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/collections/:id" element={<EditPage model="COLLECTION" />} />
+            <Route path="/collection" element={<Collections />} />
+            <Route path="/collection/:id" element={<EditPage model="COLLECTION" />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<EditPage model="NEWS" />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<EditPage model="PRODUCT" />} />
-            <Route path="/product-types" element={<ProductTypes />} />
-            <Route path="/hashtags" element={<Hashtags />} />
-            <Route path="/covers" element={<Covers />} />
+            <Route path="/product" element={<Products />} />
+            <Route path="/product/:id" element={<EditPage model="PRODUCT" />} />
+            <Route path="/product-type" element={<ProductTypes />} />
+            <Route path="/hashtag" element={<Hashtags />} />
+            <Route path="/cover" element={<Covers />} />
             <Route path="*" element={<NotFoundView />} />
         </Routes>
     );

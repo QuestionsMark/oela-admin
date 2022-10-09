@@ -1,16 +1,16 @@
-import { Dispatch, FC, useEffect, useRef, useState } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import { fetchApiTool } from "../../utils/fetchUtils";
 import { FormAction } from "../../reducers/formReducer";
 import { OptionItemForm } from "./OptionItemForm";
 import { ProductTypeInterface } from "types";
 import { usePopup } from "../../contexts/popupContext";
 
-interface ChooseProductTypeFormProps {
+interface Props {
     value: string;
     dispatch: Dispatch<FormAction>;
 }
 
-export const ChooseProductTypeForm: FC<ChooseProductTypeFormProps> = ({ value, dispatch }) => {
+export const ChooseProductTypeForm = ({ value, dispatch }: Props) => {
 
     const { setResponsePopup } = usePopup();
 
@@ -20,18 +20,18 @@ export const ChooseProductTypeForm: FC<ChooseProductTypeFormProps> = ({ value, d
 
     const optionList = () => {
         if (!productTypes) return null;
-        return productTypes.map(p => <OptionItemForm key={p.id} value={p.name} />);
+        return productTypes.map(p => <OptionItemForm key={p.id} option={p.name} value={p.id} />);
     };
 
-    const getHashtags = async () => {
-        const response = await fetchApiTool('product-types');
+    const getProductTypes = async () => {
+        const response = await fetchApiTool<ProductTypeInterface[]>('product-type/form');
         if (!componentRef.current) return;
         if (!response.status) return setResponsePopup({ message: response.message, open: true, status: response.status });
-        setProductTypes(response.results as ProductTypeInterface[]);
+        setProductTypes(response.results);
     };
 
     useEffect(() => {
-        getHashtags();
+        getProductTypes();
     }, []);
 
     return (

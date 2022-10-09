@@ -14,9 +14,10 @@ export interface SearchResult<T> {
     searchPhrase: string;
     handleSearchPhraseChange: (text: string) => void;
     setPage: Dispatch<SetStateAction<number>>;
+    refresh: () => void;
 }
 
-export function useSearch<T>(collection: string, limit: number, refreshData: boolean): SearchResult<T> {
+export function useSearch<T>(collection: string, limit: number): SearchResult<T> {
 
     const debounceTimeoutId = useRef<NodeJS.Timeout | null>(null);
     const delayTimeoutId = useRef<NodeJS.Timeout | null>(null);
@@ -24,6 +25,7 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
     const { setAuthorization } = useAuthorization();
     const { setResponsePopup } = usePopup();
 
+    const [reload, setReload] = useState(false);
     const [page, setPage] = useState(1);
     const [searchPhrase, setSearchPhrase] = useState('');
     const [search, setSearch] = useState('');
@@ -31,9 +33,14 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
         setSearchPhrase(text);
     };
 
+    const refresh = () => {
+        setReload(state => !state);
+        setPage(1);
+    };
+
     useEffect(() => {
         setData([]);
-    }, [refreshData, search]);
+    }, [reload, search]);
 
     useEffect(() => {
         if (debounceTimeoutId.current) {
@@ -43,7 +50,6 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
             setPage(1);
             setSearch(searchPhrase);
         }, 500);
-        return clearTimeout(debounceTimeoutId.current);
     }, [searchPhrase]);
 
     const [loading, setLoading] = useState(true);
@@ -76,7 +82,7 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
                 const endTime = new Date().valueOf();
                 delayTimeoutId.current = setTimeout(() => {
                     setLoading(false);
-                    setAmount(res.data.amount);
+                    setAmount(res.data.count);
                     setData(prev => [...prev, ...res.data.results]);
                     setHasMore(res.data.results.length > 0);
                 }, endTime - startTime < 500 ? 500 - (endTime - startTime) : 0);
@@ -92,7 +98,6 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
                         return;
                     }
                     if (axios.isCancel(e)) return;
-                    // setError({ message: 'Wystąpił błąd podczas pobierania danych.' });
                     setResponsePopup({ message: 'Wystąpił błąd podczas pobierania danych.', status: false, open: true });
                 }, endTime - startTime < 500 ? 500 - (endTime - startTime) : 0);
             });
@@ -104,7 +109,7 @@ export function useSearch<T>(collection: string, limit: number, refreshData: boo
             cancel();
         }
 
-    }, [search, page, collection, refreshData]);
+    }, [search, page, collection, reload]);
 
-    return { loading, data, hasMore, amount, page, searchPhrase, setPage, handleSearchPhraseChange };
+    return { loading, data, hasMore, amount, page, searchPhrase, setPage, handleSearchPhraseChange, refresh };
 }

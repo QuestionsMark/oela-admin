@@ -21,14 +21,14 @@ export const CoverItem = ({ cover, refference, refresh }: Props) => {
 
     const handleDelete = async () => {
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchTool(`covers/${id}`, 'DELETE');
+        const response = await fetchTool(`cover/${id}`, 'DELETE');
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         refresh();
     };
 
     return (
-        <li className="list__item card-animation" ref={refference ? refference : null}>
+        <li className="list__item card-animation" ref={refference ?? null}>
             <Image alt={image.alt} src={image.id} />
             <DeleteButton className="btn--delete-cover" handler={handleDelete} question="Czy napewno chcesz usunąć okładkę?">Usuń</DeleteButton>
         </li>

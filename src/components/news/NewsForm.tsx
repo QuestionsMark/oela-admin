@@ -44,12 +44,12 @@ export const NewsForm = ({ close }: Props) => {
         if (validationErrors.length !== 0) return;
         const data = new FormData();
         for (const img of news.images as File[]) {
-            data.append('img', img);
+            data.append('image', img);
         }
-        data.append('data', JSON.stringify({
+        data.append('data', JSON.stringify((({ images, ...o }) => o)({
             ...news,
-            images: news.preview.map(p => ({ alt: p.alt })),
-        }));
+            preview: news.preview.map(p => ({ alt: p.alt })),
+        })));
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
         dispatch({ type: 'FORM_SET', payload: defaultNews });
         const response = await fetchWithFileUpload('news', 'POST', data);

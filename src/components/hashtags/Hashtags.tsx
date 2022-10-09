@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback } from "react";
 
 import { HashtagInterface } from "types";
 
@@ -9,29 +9,12 @@ import { HashtagItem } from "./HashtagItem";
 import { useSearch } from "../../hooks/useSearch";
 import { Loading } from "../common/Loading";
 import { ShowFormButton } from "../common/ShowFormButton";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { LIMIT_HASHTAG } from "../../utils/limitData";
 
 export const Hashtags = () => {
-
-    const [refreshData, setRefreshData] = useState(false);
-
-    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage } = useSearch<HashtagInterface>('hashtags', 50, refreshData);
-
-    const observer = useRef<IntersectionObserver>();
-    const lastDataElementRef = useCallback(node => {
-        if (loading || amount < page * 50) return;
-        if (observer.current) observer.current.disconnect()
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setPage(prev => prev + 1);
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, [loading, hasMore]);
-
-    const refresh = () => {
-        setPage(1);
-        setRefreshData(prev => !prev);
-    };
+    const { amount, data, loading, hasMore, searchPhrase, page, handleSearchPhraseChange, setPage, refresh } = useSearch<HashtagInterface>('hashtag', LIMIT_HASHTAG);
+    const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_HASHTAG, setPage);
 
     const items = useCallback(() => {
         return data.map((i, index) => {
@@ -45,7 +28,7 @@ export const Hashtags = () => {
             <ShowFormButton model="HASHTAG" refresh={refresh} />
             <Search handleSearch={handleSearchPhraseChange} value={searchPhrase} />
             {loading ? <Loading /> : <section className="list">
-                <List items={items()} limit={50} />
+                <List items={items()} limit={LIMIT_HASHTAG} />
             </section>}
         </main>
     );

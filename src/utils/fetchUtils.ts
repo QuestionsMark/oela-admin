@@ -1,6 +1,5 @@
 import { ClientResponse, ClientApiResponse, ClientResponseError } from 'types';
 import { HOST_ADDRESS } from "../config";
-import { deleteLocalStorage, getLocalStorage } from './localStorageHelper';
 
 type Method = 'POST' | 'DELETE' | 'PATCH' | 'PUT' | 'GET';
 
@@ -13,28 +12,19 @@ type UploadMethod = 'POST' | 'PATCH' | 'PUT';
 
 const showProblem = (response: Response, res: ResponseProblem): ClientResponseError => {
     console.warn(res.message);
-    if (response.status === 403) {
-        deleteLocalStorage('token');
-        // Nie wiem jak zrobić aktualizację kontekstu w utilsie...
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000);
-        //
-    }
     if (response.status === 400) return { message: res.message, status: false, problems: res.problems };
     return { message: res.message, status: false };
 };
 
 export const fetchTool = async (path: string, method: Method = 'GET', body: any = undefined): Promise<ClientResponse> => {
     try {
-        const headers = ['POST', 'PATCH', 'PUT'].includes(method) ? { 'Content-Type': 'application/json', 'authorization': getLocalStorage('token') } : undefined;
+        const headers = ['POST', 'PATCH', 'PUT'].includes(method) ? { 'Content-Type': 'application/json' } : undefined;
 
         const response = await fetch(`${HOST_ADDRESS}/${path}`, {
             method,
-            headers: headers || {
-                'authorization': getLocalStorage('token'),
-            },
+            headers: headers,
             body: body && JSON.stringify(body),
+            credentials: 'include',
         });
         const res = await response.json();
         if (response.ok) return { ...res, status: true };
@@ -44,12 +34,13 @@ export const fetchTool = async (path: string, method: Method = 'GET', body: any 
     }
 };
 
-export const fetchApiTool = async (path: string): Promise<ClientApiResponse> => {
+export async function fetchApiTool<T>(path: string): Promise<ClientApiResponse<T>> {
     try {
         const response = await fetch(`${HOST_ADDRESS}/${path}`, {
+            credentials: 'include',
         });
         const res = await response.json();
-        if (response.ok) return { ...res, status: true };
+        if (response.ok) return { results: res, status: true };
         return showProblem(response, res);
     } catch (e) {
         return { message: 'Wystąpił błąd. Spróbuj jeszcze raz.', status: false };
@@ -60,10 +51,8 @@ export const fetchWithFileUpload = async (path: string, method: UploadMethod = '
     try {
         const response = await fetch(`${HOST_ADDRESS}/${path}`, {
             method,
-            headers: {
-                'authorization': getLocalStorage('token'),
-            },
             body,
+            credentials: 'include',
         });
         const res = await response.json();
         if (response.ok) return { ...res, status: true };

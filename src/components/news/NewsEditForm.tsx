@@ -34,15 +34,15 @@ export const NewsEditForm = ({ data, id, refresh }: Props) => {
         const data = new FormData();
         if (news.images) {
             for (const img of news.images as File[]) {
-                data.append('img', img);
+                data.append('image', img);
             }
         }
-        data.append('data', JSON.stringify({
+        data.append('data', JSON.stringify((({ images, ...o }) => o)({
             ...news,
-            images: news.preview.map(p => ({ alt: p.alt })),
-        }));
+            preview: news.preview.map(p => ({ alt: p.alt })),
+        })));
         setResponsePopup({ message: 'Wysyłanie...', status: true, open: true });
-        const response = await fetchWithFileUpload(`news/${id}`, 'PATCH', data);
+        const response = await fetchWithFileUpload(`news/${id}`, 'PUT', data);
         if (!response.status) return setResponsePopup({ message: getServerMessage(response.message, response.problems), status: response.status, open: true });
         setResponsePopup({ message: response.message, status: response.status, open: true });
         dispatch({ type: "IMAGES_CHANGE", payload: null });

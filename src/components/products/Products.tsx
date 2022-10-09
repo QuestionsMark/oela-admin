@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback } from "react";
 
 import { Search } from "../common/Search";
 import { List } from "../common/List";
@@ -8,30 +8,12 @@ import { useSearch } from "../../hooks/useSearch";
 import { ProductInterface } from "types";
 import { Loading } from "../common/Loading";
 import { ShowFormButton } from "../common/ShowFormButton";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { LIMIT_PRODUCT } from "../../utils/limitData";
 
 export const Products = () => {
-
-    const [refreshData, setRefreshData] = useState(false);
-
-    const { amount, data, loading, hasMore, searchPhrase, page, setPage, handleSearchPhraseChange } = useSearch<ProductInterface>('products', 20, refreshData);
-
-    const observer = useRef<IntersectionObserver>();
-    const lastDataElementRef = useCallback(node => {
-
-        if (loading || amount < page * 20) return;
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setPage(prev => prev + 1);
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, [loading, hasMore]);
-
-    const refresh = () => {
-        setRefreshData(prev => !prev);
-        setPage(1);
-    };
+    const { amount, data, loading, hasMore, searchPhrase, page, setPage, handleSearchPhraseChange, refresh } = useSearch<ProductInterface>('product', LIMIT_PRODUCT);
+    const { lastDataElementRef } = useInfiniteScroll(amount, hasMore, loading, page, LIMIT_PRODUCT, setPage);
 
     const items = useCallback(() => {
         return data.map((i, index) => {
@@ -45,7 +27,7 @@ export const Products = () => {
             <ShowFormButton model="PRODUCT" refresh={refresh} />
             <Search handleSearch={handleSearchPhraseChange} value={searchPhrase} />
             {loading ? <Loading /> : <section className="section">
-                <List items={items()} limit={20} />
+                <List items={items()} limit={LIMIT_PRODUCT} />
             </section>}
         </main>
     );
