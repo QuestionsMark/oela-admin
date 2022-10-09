@@ -3,6 +3,7 @@ import { FormAction } from "../../reducers/formReducer";
 import { ProductInterface } from "types";
 import { ChooseCardItem } from "./ChooseCardItem";
 import { useSearch } from "../../hooks/useSearch";
+import { LIMIT_PRODUCT_FOR_COLLECTION } from "../../utils/limitData";
 
 interface Props {
     value: string[];
@@ -12,7 +13,7 @@ interface Props {
 export const ChooseCardsForm = ({ value, dispatch }: Props) => {
     const componentRef = useRef<HTMLUListElement>(null);
 
-    const { data } = useSearch<ProductInterface>('product', 20);
+    const { data } = useSearch<ProductInterface>('product', LIMIT_PRODUCT_FOR_COLLECTION);
 
     const checkIsChecked = (id: string) => {
         return value.findIndex(c => c === id) !== -1;
