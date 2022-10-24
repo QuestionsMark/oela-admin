@@ -17,7 +17,7 @@ export interface SearchResult<T> {
     refresh: () => void;
 }
 
-export function useSearch<T>(collection: string, limit: number): SearchResult<T> {
+export function useSearch<T>(collection: string, limit: number, withLoading: boolean = false): SearchResult<T> {
 
     const debounceTimeoutId = useRef<NodeJS.Timeout | null>(null);
     const delayTimeoutId = useRef<NodeJS.Timeout | null>(null);
@@ -63,7 +63,7 @@ export function useSearch<T>(collection: string, limit: number): SearchResult<T>
         if (delayTimeoutId.current) {
             clearTimeout(delayTimeoutId.current);
         }
-        if (data.length === 0) {
+        if (data.length === 0 || withLoading) {
             setLoading(true);
         }
         let cancel: Canceler;

@@ -3,6 +3,22 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+
+    &--green {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 90px;
+      height: 90px;
+      transform: translate(0, 0);
+      & .lds-ellipsis div {
+        
+        background-color: $green;
+      }
+    }
     // width: 200px;
     // height: 200px;
 
