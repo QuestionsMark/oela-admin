@@ -1,5 +1,4 @@
 .form {
-
     &__section {
         margin-bottom: 20px;
     }
@@ -162,18 +161,40 @@
 
     &__card-list {
         display: flex;
+        justify-content: center;
         flex-wrap: wrap;
+        gap: 10px;
+
+        @media (min-width: $mobile) {
+            justify-content: flex-start;
+        }
+
+        &-search {
+            display: flex;
+            // flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            .form__card-list-search-btn {
+                display: none;
+                @extend .form__submit;
+                margin: 10px 10px 20px 0;
+                background-color: $green;
+
+                @media (min-width: $sm-mobile) {
+                    display: block;
+                }
+            }
+        }
     }
 
     &__card-item {
         @include light-shadow3D;
         background-position: center;
         background-size: cover;
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         border: 4px solid $light-green;
         border-radius: 10px;
-        margin: 0 5px 10px;
         cursor: pointer;
         transition: 0.2s;
 
@@ -211,6 +232,17 @@
 
     &__validation-list {
         margin-bottom: 20px;
+    }
+
+    .form__more-btn {
+        @extend .form__submit;
+        display: block;
+        margin: 20px auto;
+        background-color: $green;
+
+        @media (min-width: $sm-mobile) {
+            display: none;
+        }
     }
 }
 
